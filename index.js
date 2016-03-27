@@ -3,9 +3,6 @@
 */
 
 module.exports = {
-  create: function(params) {
-    // spawn a child with casperjs    
-
-    return null;
-  }
+  create: require(__dirname + '/src/casper-nodejs/create.js')
 };
+
