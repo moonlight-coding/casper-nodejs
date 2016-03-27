@@ -1,0 +1,22 @@
+{
+  "name": "casper-nodejs",
+  "version": "1.0.0",
+  "description": "Control CasperJS from your NodeJS application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moonlight-coding/casper-nodejs.git"
+  },
+  "author": "Pierre-Emmanuel Lallemant <pe.lallemant@hotmail.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moonlight-coding/casper-nodejs/issues"
+  },
+  "homepage": "https://github.com/moonlight-coding/casper-nodejs#readme",
+  "dependencies": {
+    "casperjs": "^1.1.0-beta5"
+  }
+}
