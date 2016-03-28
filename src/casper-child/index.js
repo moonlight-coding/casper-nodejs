@@ -1,9 +1,8 @@
 console.log("Hi, you spawned me :)");
 
-var casper = require('casper').create({/*,
-  verbose: true,
-  logLevel: "debug"*/
-});
+var casper = require('casper').create();
+
+console.log(JSON.stringify(casper.cli.options, null, 2));
 
 casper.start('http://google.com');
 
@@ -12,3 +11,5 @@ casper.run(function() {
 
   this.exit();
 });
+
+

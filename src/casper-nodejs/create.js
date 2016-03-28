@@ -10,7 +10,10 @@ function stripTrailingNewLine(str) {
 function create(params) {
   // spawn a child with casperjs    
 
-  var process = spawn('casperjs', [__dirname + '/../casper-child/index.js']);
+  var process = spawn('casperjs', [
+    __dirname + '/../casper-child/index.js',
+    "--mlc-casper-options=" + JSON.stringify(params)
+  ]);
 
   process.stdout.on('data', (data) => {
     data = stripTrailingNewLine(data.toString('utf-8'));
@@ -23,7 +26,7 @@ function create(params) {
   });
 
   process.on('close', (code) => {
-    console.log('child process exited with code ${code}');
+    console.log(`child process exited with code ${code}`);
   });  
 
   return {
