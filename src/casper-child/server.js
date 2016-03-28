@@ -3,6 +3,8 @@ var webserver = require('webserver');
 var server = {
   
   _server: null,
+  _event_received: false,
+  _response: null,
 
   _send: function(response, content, status_code) {
     if(status_code == null)
@@ -38,8 +40,7 @@ var server = {
         throw new Error('Could not parse "' + request.post + '" as JSON');
       }
 
-      casper.echo("test");
-      console.log("test");
+      console.log("test - ");
 
       console.log(req_content['action']);
       /*if(req_content.action == 'start') {
@@ -57,12 +58,18 @@ var server = {
         return;
       }*/
       if(req_content.action == 'then') {
-        casper.emit('mlc.action');
+        //var callback = evaluate(req.callback);
+        console.log('server._event_received set to true');
+        server._response = response;
+        //casper.emit('mlc.then', null/*req.callback*/);
+        casper.emit('mlc.then', req_content.callback);
+        //server._event_received = true;
+
         /*casper.then(function() {
           console.log("casper.then executed");
         });*/
 
-        server._send(response, "OK\n");
+        //server._send(response, "OK\n");
         return;
       }
       else if(req_content.action == 'exit') {
@@ -73,6 +80,7 @@ var server = {
 
       console.log(method);
       server._send(response, "NOT OK: '" + req_content['action'] + "'\n");
+    
     });
   }
   

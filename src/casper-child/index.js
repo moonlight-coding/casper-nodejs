@@ -1,6 +1,7 @@
 console.log("I am the casperjs program, you  spawned me :)");
 
 var casper = require('casper').create();
+var server;
 
 try {
 
@@ -22,26 +23,22 @@ try {
       casper.options[i] = option;
   }
 
-  // initialize the events
-  casper.on('mlc.action', function() {
-    this.log('received mlc.action !');
-  });
-
-  // 
-  casper.start(casper_url, function() {
-    this.echo("casper.start executed");
-  });
-
+  // --
   var waitEventObj = {
     check: function() {
-      return false;
+      //return false;
+      if(server._event_received == true)
+        console.log("TRUE :)");
+      return server._event_received;
     },
     then: function () {
       console.log('end of wait');
     }, 
     onTimeout: function timeout(t) {
       console.log('TIMEOUT ' + t + 'ms elapsed');
-      waitEventObj.wait();
+      casper.then(function() {
+        waitEventObj.wait();
+      });
     },
     timeout: 1000, // timeout of 10s
     wait: function() {
@@ -49,9 +46,34 @@ try {
     }
   };
 
+  // initialize the events
+  casper.on('mlc.then', function(callback) {
+    casper.echo('received mlc.action !');
+//    casper.echo(typeof callback);  
+    casper.echo("--------");
+    casper.echo(callback);
+    casper.echo("--------");
+
+    casper.echo("before");
+    var fn = eval('(' + callback + ')');
+    casper.echo("after");
+
+    casper.then(function() {
+      //fn();
+      server._send(server._response, JSON.stringify(fn()), 200);
+
+      waitEventObj.wait(); //casper.waitFor();
+    });
+  });
+
+  // 
+  casper.start(casper_url, function() {
+    this.echo("casper.start executed");
+  });
+
   casper.then(function() {
-    this.echo("casper.then executed.");
-    this.echo("waiting for event");
+    //this.echo("casper.then executed.");
+    //this.echo("waiting for event");
 
     waitEventObj.wait(); //casper.waitFor();
   });
@@ -65,7 +87,7 @@ try {
   var action_list = require('./action_list.js');
 
   // listen to requests from nodejs
-  var server = require('./server.js');
+  server = require('./server.js');
 
   server.start(casper, action_list, 8085);
 

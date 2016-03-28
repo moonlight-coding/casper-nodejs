@@ -29,22 +29,22 @@ var casper = casper_nodejs.create(url, {
 
 setTimeout(function() {
 
+  casper.then(function /*executed_in_casperjs_context*/() {
+
+    return {'test' : 42};
+  }, function executed_after_in_this_context(ret) {
+    console.log('test = ' + ret.test);
+  });
+}, 2000);
+
+/*setTimeout(function() {
   casper.then(function executed_in_casperjs_context() {
 
     return {'test' : 42};
   }, function executed_after_in_this_context(ret) {
     console.log('test = ' + ret.test);
   });
-}, 400);
-
-setTimeout(function() {
-  casper.then(function executed_in_casperjs_context() {
-
-    return {'test' : 42};
-  }, function executed_after_in_this_context(ret) {
-    console.log('test = ' + ret.test);
-  });
-}, 3000);
+}, 3000);*/
 /*
 casper.run(function() {
   console.log("this is the last function to be called");
