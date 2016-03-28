@@ -33,7 +33,7 @@ setTimeout(function() {
 
     return {'test' : 42};
   }, function executed_after_in_this_context(ret) {
-    console.log('test = ' + ret.test);
+    console.log('test reçu depuis casperjs = ' + ret.test);
   });
 }, 2000);
 

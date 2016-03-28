@@ -68,13 +68,37 @@ function create(url, params) {
       req.write(body);
       req.end();
     },
-    then: function(callback) {
+// casper.then variants:
+// ------------------------------------------------------------------------------------------
+// casper.then(fn_in_current_context, null, null)
+// casper.then(fn_in_casperjs_context, fn_in_current_context, null)
+// casper.then(fn_in_web_context, fn_in_casperjs_context, fn_in_current_context, null)
+// ------------------------------------------------------------------------------------------
+
+    then: function(callback1, callback2, callback3) {
       //sleep.sleep(2);
+
+      var callback_current = null;
+      var callback_casper = null;
+      var callback_web = null;
+
+      if(callback3 != null) {
+        callback_web = callback1;
+        callback_casper = callback2;
+        callback_current = callback3;
+      }
+      else if(callback2 != null) {
+        callback_casper = callback1;
+        callback_current = callback2;
+      }
+      else {
+        callback_current = callback1;
+      }
 
       //console.log('TO IMPLEMENT: start ');
       var body = JSON.stringify({
         'action': 'then',
-        'callback': (callback == null) ? null : callback.toString()
+        'callback': (callback_casper == null) ? null : callback_casper.toString()
       });
       var req = http.request({
         host: '127.0.0.1',
@@ -94,6 +118,7 @@ function create(url, params) {
         });
         response.on('end', function() {
           console.log("réponse reçue: " + str);
+          callback_current(JSON.parse(str));
         });
       });
       req.write(body);
