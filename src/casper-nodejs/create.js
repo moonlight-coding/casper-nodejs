@@ -1,6 +1,7 @@
+// casper-nodejs/create.js
+
 var http = require('http');
 var spawn = require('child_process').spawn;
-var sleep = require('sleep');
 
 function stripTrailingNewLine(str) {
   if(str.substr(-1) === "\n") {
@@ -9,12 +10,13 @@ function stripTrailingNewLine(str) {
   return str;
 }
 
-function create(params) {
+function create(url, params) {
   // spawn a child with casperjs    
 
   var process = spawn('casperjs', [
     __dirname + '/../casper-child/index.js',
-    "--mlc-casper-options=" + JSON.stringify(params)
+    "--mlc-casper-options=" + JSON.stringify(params), 
+    "--mlc-casper-url=" + JSON.stringify(url)
   ]);
 
   process.stdout.on('data', (data) => {
@@ -66,8 +68,36 @@ function create(params) {
       req.write(body);
       req.end();
     },
-    then: function() {
-      console.log('TO IMPLEMENT: then ');
+    then: function(callback) {
+      //sleep.sleep(2);
+
+      //console.log('TO IMPLEMENT: start ');
+      var body = JSON.stringify({
+        'action': 'then',
+        'callback': (callback == null) ? null : callback.toString()
+      });
+      var req = http.request({
+        host: '127.0.0.1',
+        port: 8085,
+        path: '/',
+        method: 'POST',
+        headers : {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body)
+        }
+      }, function(response) {
+
+        var str = '';
+        
+        response.on('data', function(chunk) {
+          str += chunk;
+        });
+        response.on('end', function() {
+          console.log("réponse reçue: " + str);
+        });
+      });
+      req.write(body);
+      req.end();
     },
     run: function() {
       console.log('TO IMPLEMENT: run');

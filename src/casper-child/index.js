@@ -1,29 +1,4 @@
-var casper = require('casper').create();
-
-casper.start('http://google.com', function() {
-  this.emit('testeuh');
-  this.emit('testeuh');
-});
-
-casper.on('testeuh', function() {
-  this.echo("testeuh received");
-  this.then(function() {
-    this.echo ("yeah");
-  });
-});
-
-casper.run(function() {
-  this.echo('casper run() callback called');
-  // le code des then n'est plus exécuté à partir du moment où run() est exécuté 
-  //this.exit();
-});
-
-setTimeout(function() {
-  casper.emit('testeuh');
-}, 500);
-
-/*
-console.log("Hi, you spawned me :)");
+console.log("I am the casperjs program, you  spawned me :)");
 
 var casper = require('casper').create();
 
@@ -32,7 +7,7 @@ try {
   //console.log(JSON.stringify(casper.cli.options, null, 2));
 
   // load the options from the command line
-
+  var casper_url = JSON.stringify(casper.cli.options['mlc-casper-url']);
   var casper_options = JSON.stringify(casper.cli.options['mlc-casper-options']);
 
   for(var i in casper_options) {
@@ -48,8 +23,42 @@ try {
   }
 
   // initialize the events
-  casper.on('mlc.event', function() {
-    this.log('received mlc.event !');
+  casper.on('mlc.action', function() {
+    this.log('received mlc.action !');
+  });
+
+  // 
+  casper.start(casper_url, function() {
+    this.echo("casper.start executed");
+  });
+
+  var waitEventObj = {
+    check: function() {
+      return false;
+    },
+    then: function () {
+      console.log('end of wait');
+    }, 
+    onTimeout: function timeout(t) {
+      console.log('TIMEOUT ' + t + 'ms elapsed');
+      waitEventObj.wait();
+    },
+    timeout: 1000, // timeout of 10s
+    wait: function() {
+      casper.waitFor(waitEventObj.check, waitEventObj.then, waitEventObj.onTimeout, waitEventObj.timeout);
+    }
+  };
+
+  casper.then(function() {
+    this.echo("casper.then executed.");
+    this.echo("waiting for event");
+
+    waitEventObj.wait(); //casper.waitFor();
+  });
+
+  casper.run(function() {
+    console.log("casper.run executed: end of the scraper");
+    this.exit();
   });
 
   // store the action lists
@@ -65,4 +74,4 @@ catch(err) {
   console.error(err.stack);
   casper.exit(1);
 }
-*/
+

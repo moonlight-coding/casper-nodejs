@@ -42,7 +42,7 @@ var server = {
       console.log("test");
 
       console.log(req_content['action']);
-      if(req_content.action == 'start') {
+      /*if(req_content.action == 'start') {
         casper.start(req_content.url, function() {
           console.log("casper.start executed");
         });
@@ -53,6 +53,15 @@ var server = {
         casper.run(function() {
           console.log("casper.run executed");
         });
+        server._send(response, "OK\n");
+        return;
+      }*/
+      if(req_content.action == 'then') {
+        casper.emit('mlc.action');
+        /*casper.then(function() {
+          console.log("casper.then executed");
+        });*/
+
         server._send(response, "OK\n");
         return;
       }
