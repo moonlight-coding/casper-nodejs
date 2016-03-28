@@ -1,4 +1,6 @@
+var http = require('http');
 var spawn = require('child_process').spawn;
+var sleep = require('sleep');
 
 function stripTrailingNewLine(str) {
   if(str.substr(-1) === "\n") {
@@ -27,13 +29,42 @@ function create(params) {
 
   process.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
-  });  
+  });
 
   return {
     _process: process,
 
-    start: function() {
-      console.log('TO IMPLEMENT: start ');
+    start: function(callback) {
+      //sleep.sleep(2);
+
+      //console.log('TO IMPLEMENT: start ');
+      var body = JSON.stringify({
+        'action': 'start', 
+        'url': 'http://google.com',
+        'callback': (callback == null) ? null : callback.toString()
+      });
+      var req = http.request({
+        host: '127.0.0.1',
+        port: 8085,
+        path: '/',
+        method: 'POST',
+        headers : {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body)
+        }
+      }, function(response) {
+
+        var str = '';
+        
+        response.on('data', function(chunk) {
+          str += chunk;
+        });
+        response.on('end', function() {
+          console.log("réponse reçue: " + str);
+        });
+      });
+      req.write(body);
+      req.end();
     },
     then: function() {
       console.log('TO IMPLEMENT: then ');
