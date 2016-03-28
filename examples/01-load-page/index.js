@@ -27,24 +27,37 @@ var casper = casper_nodejs.create(url, {
 // casper.then(fn_in_phantomjs_context, fn_in_casperjs_context, fn_in_current_context, null)
 // ------------------------------------------------------------------------------------------
 
+casper.then(function executed_in_casperjs_context() {
+
+  return {'test' : 45};
+}, function executed_after_in_this_context(ret) {
+  console.log('test1 = ' + ret.test);
+});
+casper.then(function executed_in_casperjs_context() {
+
+  return {'test' : 45};
+}, function executed_after_in_this_context(ret) {
+  console.log('test2 = ' + ret.test);
+});
+
 setTimeout(function() {
 
   casper.then(function /*executed_in_casperjs_context*/() {
 
     return {'test' : 42};
   }, function executed_after_in_this_context(ret) {
-    console.log('test reçu depuis casperjs = ' + ret.test);
+    console.log('test3 reçu depuis casperjs = ' + ret.test);
   });
 }, 2000);
 
-/*setTimeout(function() {
+setTimeout(function() {
   casper.then(function executed_in_casperjs_context() {
 
-    return {'test' : 42};
+    return {'test' : 45};
   }, function executed_after_in_this_context(ret) {
-    console.log('test = ' + ret.test);
+    console.log('test4 = ' + ret.test);
   });
-}, 3000);*/
+}, 3000);
 /*
 casper.run(function() {
   console.log("this is the last function to be called");

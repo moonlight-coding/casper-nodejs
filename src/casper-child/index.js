@@ -58,6 +58,8 @@ try {
     var fn = eval('(' + callback + ')');
     casper.echo("after");
 
+    server._event_received = false;
+
     casper.then(function() {
       //fn();
       server._send(server._response, JSON.stringify(fn()), 200);

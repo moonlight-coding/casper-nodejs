@@ -121,6 +121,11 @@ function create(url, params) {
           callback_current(JSON.parse(str));
         });
       });
+
+      req.on('error', (e) => {
+        console.log(`problem with request: ${e.message}`);
+      });
+
       req.write(body);
       req.end();
     },
