@@ -35,7 +35,7 @@ casper.then(function executed_in_casperjs_context() {
 });
 casper.then(function executed_in_casperjs_context() {
 
-  return {'test' : 45};
+  return {'test' : 48};
 }, function executed_after_in_this_context(ret) {
   console.log('test2 = ' + ret.test);
 });
@@ -58,8 +58,7 @@ setTimeout(function() {
     console.log('test4 = ' + ret.test);
   });
 }, 3000);
-/*
-casper.run(function() {
-  console.log("this is the last function to be called");
-});
-*/
+
+setTimeout(function() {
+  casper.run();
+}, 4000);

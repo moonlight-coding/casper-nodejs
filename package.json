@@ -18,6 +18,7 @@
   "homepage": "https://github.com/moonlight-coding/casper-nodejs#readme",
   "dependencies": {
     "casperjs": "^1.1.0-beta5",
+    "node-uuid": "^1.4.7",
     "sleep": "^3.0.1"
   }
 }

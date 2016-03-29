@@ -10,17 +10,17 @@ var AL = {
   actions: [],
   
   add_action: function(call_context_web, call_context_casperjs, call_context_nodejs) {
-    AL.actions.push({
-      call_context_web: call_context_web, 
-      call_context_casperjs: call_context_casperjs, 
-      call_context_nodejs: call_context_nodejs
-    });
+    AL.actions.push([
+      call_context_web, 
+      call_context_casperjs, 
+      call_context_nodejs
+    ]);
 
     return AL;
   },
 
   next_action: function() {
-    return AL.actions.splice(1);
+    return (AL.actions.length > 0) ? AL.actions.splice(0, 1)[0] : null;
   }
 
 };

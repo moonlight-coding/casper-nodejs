@@ -1,6 +1,5 @@
 // casper-nodejs/create.js
 
-var http = require('http');
 var spawn = require('child_process').spawn;
 
 function stripTrailingNewLine(str) {
@@ -33,41 +32,12 @@ function create(url, params) {
     console.log(`child process exited with code ${code}`);
   });
 
-  return {
+  var service = {
     _process: process,
+    _running: false,
+    _action: require(__dirname + '/action.js'),
+    _actions: require(__dirname + '/action_list.js'),
 
-    start: function(callback) {
-      //sleep.sleep(2);
-
-      //console.log('TO IMPLEMENT: start ');
-      var body = JSON.stringify({
-        'action': 'start', 
-        'url': 'http://google.com',
-        'callback': (callback == null) ? null : callback.toString()
-      });
-      var req = http.request({
-        host: '127.0.0.1',
-        port: 8085,
-        path: '/',
-        method: 'POST',
-        headers : {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(body)
-        }
-      }, function(response) {
-
-        var str = '';
-        
-        response.on('data', function(chunk) {
-          str += chunk;
-        });
-        response.on('end', function() {
-          console.log("réponse reçue: " + str);
-        });
-      });
-      req.write(body);
-      req.end();
-    },
 // casper.then variants:
 // ------------------------------------------------------------------------------------------
 // casper.then(fn_in_current_context, null, null)
@@ -76,63 +46,24 @@ function create(url, params) {
 // ------------------------------------------------------------------------------------------
 
     then: function(callback1, callback2, callback3) {
+    
+      service._actions.add(callback1, callback2, callback3);
+
+      if(service._running) {
+        service._actions.next();
+      }
       //sleep.sleep(2);
 
-      var callback_current = null;
-      var callback_casper = null;
-      var callback_web = null;
-
-      if(callback3 != null) {
-        callback_web = callback1;
-        callback_casper = callback2;
-        callback_current = callback3;
-      }
-      else if(callback2 != null) {
-        callback_casper = callback1;
-        callback_current = callback2;
-      }
-      else {
-        callback_current = callback1;
-      }
-
-      //console.log('TO IMPLEMENT: start ');
-      var body = JSON.stringify({
-        'action': 'then',
-        'callback': (callback_casper == null) ? null : callback_casper.toString()
-      });
-      var req = http.request({
-        host: '127.0.0.1',
-        port: 8085,
-        path: '/',
-        method: 'POST',
-        headers : {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(body)
-        }
-      }, function(response) {
-
-        var str = '';
-        
-        response.on('data', function(chunk) {
-          str += chunk;
-        });
-        response.on('end', function() {
-          console.log("réponse reçue: " + str);
-          callback_current(JSON.parse(str));
-        });
-      });
-
-      req.on('error', (e) => {
-        console.log(`problem with request: ${e.message}`);
-      });
-
-      req.write(body);
-      req.end();
+      /**/
     },
     run: function() {
-      console.log('TO IMPLEMENT: run');
+      service._running = true;
+      service._action.start(service._actions);
+      //console.log('TO IMPLEMENT: run');
     }
   };
+
+  return service;
 }
 
 
