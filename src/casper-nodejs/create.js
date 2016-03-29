@@ -1,6 +1,7 @@
 // casper-nodejs/create.js
 
 var spawn = require('child_process').spawn;
+var node_uuid = require('node-uuid'); 
 
 function stripTrailingNewLine(str) {
   if(str.substr(-1) === "\n") {
