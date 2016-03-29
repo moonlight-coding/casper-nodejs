@@ -15,7 +15,7 @@ var server = {
     response.close();
   },
 
-  start: function(casper, action_list, port) {
+  start: function(casper, port) {
     casper.echo("attente d'une requete");
     server._server = webserver.create();
     server._server.listen(port, function(request, response) {
@@ -40,9 +40,8 @@ var server = {
         throw new Error('Could not parse "' + request.post + '" as JSON');
       }
 
-      console.log("test - ");
-
-      console.log(req_content['action']);
+      //console.log("test - ");
+      //console.log(req_content['action']);
       /*if(req_content.action == 'start') {
         casper.start(req_content.url, function() {
           console.log("casper.start executed");

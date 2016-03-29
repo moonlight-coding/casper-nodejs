@@ -32,7 +32,7 @@ try {
       return server._event_received;
     },
     then: function () {
-      console.log('end of wait');
+      //this.echo('end of wait IDIOOOOOOOOOOOOOOOOOOOOOOOOOT');
     }, 
     onTimeout: function timeout(t) {
       console.log('TIMEOUT ' + t + 'ms elapsed');
@@ -48,23 +48,31 @@ try {
 
   // initialize the events
   casper.on('mlc.then', function(callback) {
-    casper.echo('received mlc.action !');
-//    casper.echo(typeof callback);  
-    casper.echo("--------");
-    casper.echo(callback);
-    casper.echo("--------");
 
-    casper.echo("before");
-    var fn = eval('(' + callback + ')');
-    casper.echo("after");
-
-    server._event_received = false;
+    casper.echo('!!!! received mlc.action !');
+    server._event_received = true;
 
     casper.then(function() {
-      //fn();
-      server._send(server._response, JSON.stringify(fn()), 200);
+      
+  //    casper.echo(typeof callback);  
+      casper.echo("--------");
+      casper.echo(callback);
+      casper.echo("--------");
 
-      waitEventObj.wait(); //casper.waitFor();
+      //casper.echo("before");
+      var fn = eval('(' + callback + ')');
+      //casper.echo("after");
+
+      casper.then(function() {
+        casper.echo("\033[31m[========] mlc.then execution in the context\033[0m");
+        //fn();
+        server._send(server._response, JSON.stringify(fn()), 200);
+        server._event_received = false;
+
+        waitEventObj.wait(); //casper.waitFor();
+      });
+
+      casper.echo('!!!! registered action !');
     });
   });
 
@@ -85,13 +93,10 @@ try {
     this.exit();
   });
 
-  // store the action lists
-  var action_list = require('./action_list.js');
-
   // listen to requests from nodejs
   server = require('./server.js');
 
-  server.start(casper, action_list, 8085);
+  server.start(casper, 8085);
 
 }
 catch(err) {

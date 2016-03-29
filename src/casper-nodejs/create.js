@@ -47,10 +47,11 @@ function create(url, params) {
 
     then: function(callback1, callback2, callback3) {
     
+      console.log("\033[32m- 'then' action registered\033[0m");
       service._actions.add(callback1, callback2, callback3);
 
       if(service._running) {
-        service._actions.next();
+        service._action.next();
       }
       //sleep.sleep(2);
 

@@ -10,19 +10,24 @@ var Action = {
     Action.next();
   },
   next: function() {
+    console.log('==> ACTION.NEXT');
     if(Action._doing == true)
       return;
 
     var n = Action._action_list.next();
-    console.log(Action._action_list.actions.length);
+    console.log(' ===> ' + Action._action_list.actions.length);
     if(n) {
-      console.log('launching action :) ');
-
+      console.log('==> launching action :) ');
+      
       Action._doing = true;
       Action.execute(n);
     }
+    else console.log('ACTION IS NULL WTF');
   },
   execute: function(action) {
+
+    console.log("\033[35m-->Sending Action To CasperJS\033[0m");
+
     var callback1 = action[0];
     var callback2 = action[1];
     var callback3 = action[2];
@@ -68,8 +73,10 @@ var Action = {
         str += chunk;
       });
       response.on('end', function() {
-        console.log("réponse reçue: " + str);
+        //console.log("réponse reçue: " + str);
         callback_current(JSON.parse(str));
+
+        console.log("\033[33m--> Action Finished On CasperJS\033[0m");
 
         // libérer
         Action._doing = false;

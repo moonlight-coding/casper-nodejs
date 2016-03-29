@@ -31,14 +31,15 @@ casper.then(function executed_in_casperjs_context() {
 
   return {'test' : 45};
 }, function executed_after_in_this_context(ret) {
-  console.log('test1 = ' + ret.test);
+  console.log('[REPONSE 1] ' + JSON.stringify(ret.test) );
 });
+/*
 casper.then(function executed_in_casperjs_context() {
 
   return {'test' : 48};
 }, function executed_after_in_this_context(ret) {
   console.log('test2 = ' + ret.test);
-});
+});*/
 
 setTimeout(function() {
 
@@ -46,19 +47,20 @@ setTimeout(function() {
 
     return {'test' : 42};
   }, function executed_after_in_this_context(ret) {
-    console.log('test3 reçu depuis casperjs = ' + ret.test);
+    console.log('[REPONSE 2] ' + JSON.stringify(ret.test) );
   });
 }, 2000);
 
 setTimeout(function() {
+  //console.log("----> enregistrement :)");
   casper.then(function executed_in_casperjs_context() {
 
     return {'test' : 45};
   }, function executed_after_in_this_context(ret) {
-    console.log('test4 = ' + ret.test);
+    console.log('[REPONSE 3] ' + JSON.stringify(ret.test) );
   });
-}, 3000);
+}, 4000);
 
 setTimeout(function() {
   casper.run();
-}, 4000);
+}, 3000);
