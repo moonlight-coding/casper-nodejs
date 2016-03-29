@@ -6,14 +6,21 @@ var AL = {
   
   actions: [],
   
-  add: function(call_context_web, call_context_casperjs, call_context_nodejs) {
-    AL.actions.push([
-      call_context_web, 
-      call_context_casperjs, 
-      call_context_nodejs
-    ]);
+  add: function(type, call_context_web, call_context_casperjs, call_context_nodejs) {
+    
+    var action = {type: type};
+  
+    if(action.type == 'then') {
+      action.callbacks = [
+        call_context_web, 
+        call_context_casperjs, 
+        call_context_nodejs
+      ];
+    }
 
-    console.log(AL.actions.length + ' actions enregistrées');
+    AL.actions.push(action);
+
+    // console.log(AL.actions.length + ' actions enregistrées');
 
     return AL;
   },

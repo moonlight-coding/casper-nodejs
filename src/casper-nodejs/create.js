@@ -48,7 +48,7 @@ function create(url, params) {
     then: function(callback1, callback2, callback3) {
     
       console.log("\033[32m- 'then' action registered\033[0m");
-      service._actions.add(callback1, callback2, callback3);
+      service._actions.add('then', callback1, callback2, callback3);
 
       if(service._running) {
         service._action.next();
@@ -60,7 +60,15 @@ function create(url, params) {
     run: function() {
       service._running = true;
       service._action.start(service._actions);
-      //console.log('TO IMPLEMENT: run');
+    },
+    exit: function() {
+      console.log("\033[32m- 'exit' action registered\033[0m");
+      service._actions.add('exit');
+
+      // send the call      
+      if(service._running) {
+        service._action.next();
+      }
     }
   };
 

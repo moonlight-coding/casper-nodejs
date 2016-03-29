@@ -41,9 +41,9 @@ casper.then(function executed_in_casperjs_context() {
   console.log('test2 = ' + ret.test);
 });*/
 
-setTimeout(function() {
+/*setTimeout(function() {
 
-  casper.then(function /*executed_in_casperjs_context*/() {
+  casper.then(function () {
 
     return {'test' : 42};
   }, function executed_after_in_this_context(ret) {
@@ -59,8 +59,15 @@ setTimeout(function() {
   }, function executed_after_in_this_context(ret) {
     console.log('[REPONSE 3] ' + JSON.stringify(ret.test) );
   });
+
 }, 4000);
+*/
 
 setTimeout(function() {
   casper.run();
 }, 3000);
+
+setTimeout(function() {
+  casper.exit();
+}, 6000);
+

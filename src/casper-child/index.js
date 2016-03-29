@@ -28,14 +28,14 @@ try {
     check: function() {
       //return false;
       if(server._event_received == true)
-        console.log("TRUE :)");
+        ; //console.log("TRUE :)");
       return server._event_received;
     },
     then: function () {
       //this.echo('end of wait IDIOOOOOOOOOOOOOOOOOOOOOOOOOT');
     }, 
     onTimeout: function timeout(t) {
-      console.log('TIMEOUT ' + t + 'ms elapsed');
+      //console.log('TIMEOUT ' + t + 'ms elapsed');
       casper.then(function() {
         waitEventObj.wait();
       });
@@ -49,22 +49,22 @@ try {
   // initialize the events
   casper.on('mlc.then', function(callback) {
 
-    casper.echo('!!!! received mlc.action !');
+    //casper.echo('!!!! received mlc.action !');
     server._event_received = true;
 
     casper.then(function() {
       
   //    casper.echo(typeof callback);  
-      casper.echo("--------");
+      /*casper.echo("--------");
       casper.echo(callback);
-      casper.echo("--------");
+      casper.echo("--------");*/
 
       //casper.echo("before");
       var fn = eval('(' + callback + ')');
       //casper.echo("after");
 
       casper.then(function() {
-        casper.echo("\033[31m[========] mlc.then execution in the context\033[0m");
+        // casper.echo("\033[31m[========] mlc.then execution in the context\033[0m");
         //fn();
         server._send(server._response, JSON.stringify(fn()), 200);
         server._event_received = false;
@@ -78,7 +78,7 @@ try {
 
   // 
   casper.start(casper_url, function() {
-    this.echo("casper.start executed");
+    // this.echo("casper.start executed");
   });
 
   casper.then(function() {
@@ -89,7 +89,7 @@ try {
   });
 
   casper.run(function() {
-    console.log("casper.run executed: end of the scraper");
+    // console.log("casper.run executed: end of the scraper");
     this.exit();
   });
 

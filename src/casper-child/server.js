@@ -19,7 +19,8 @@ var server = {
     casper.echo("attente d'une requete");
     server._server = webserver.create();
     server._server.listen(port, function(request, response) {
-      
+      console.log('receiving request POST');      
+
       var method = request.method.toUpperCase();
 
       if (method !== 'POST') {
@@ -58,7 +59,7 @@ var server = {
       }*/
       if(req_content.action == 'then') {
         //var callback = evaluate(req.callback);
-        console.log('server._event_received set to true');
+        //console.log('server._event_received set to true');
         server._response = response;
         //casper.emit('mlc.then', null/*req.callback*/);
         casper.emit('mlc.then', req_content.callback);
@@ -72,8 +73,9 @@ var server = {
         return;
       }
       else if(req_content.action == 'exit') {
-        casper.exit();
+        console.log('EXIT');
         server._send(response, "OK\n");
+        casper.exit();
         return;
       }
 
