@@ -36,7 +36,8 @@ function create(url, params) {
   });
 
   process.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    if(code != 0)
+      console.log(`casper-child exited with code ${code}`);
   });
 
   var service = {
@@ -70,9 +71,10 @@ function create(url, params) {
 
       function waitUntilLockExists() {
         fs.access(lock, fs.R_OK | fs.W_OK, (err) => {
-          console.log(err ? 'no access!' : 'can read/write');
+          // lock doesn't exists, we check in 200ms
           if(err)
             setTimeout(waitUntilLockExists, 200);
+          // lock exists: casper-child API is ready ! Start to send actions
           else {
             service._running = true;
             service._action.start(service._actions);

@@ -6,11 +6,11 @@ var Action = {
 
   start: function(action_list) {
     Action._action_list = action_list;
-    console.log('starting to execute actions');
+    // console.log('starting to execute actions');
     Action.next();
   },
   next: function() {
-    console.log('==> ACTION.NEXT');
+    //console.log('==> ACTION.NEXT');
     if(Action._doing == true)
       return;
 
@@ -87,7 +87,7 @@ var Action = {
         //console.log("réponse reçue: " + str);
         callback_current(JSON.parse(str));
 
-        console.log("\033[33m--> Action Finished On CasperJS\033[0m");
+        // console.log("\033[33m--> Action Finished On CasperJS\033[0m");
 
         // libérer
         Action._doing = false;
@@ -105,7 +105,7 @@ var Action = {
     req.end();
   },
   _execute_exit: function() {
-    console.log('sending exit ...');
+    // console.log('sending exit ...');
     var body = JSON.stringify({
       'action': 'exit'
     });
@@ -122,7 +122,7 @@ var Action = {
 
       response.on('end', function() {
 
-        console.log("\033[33m--> CasperJS EXIT\033[0m");
+        // console.log("\033[33m--> CasperJS EXIT\033[0m");
 
         // libérer
         Action._doing = false;
@@ -138,7 +138,7 @@ var Action = {
 
     req.write(body);
     req.end();    
-    console.log('sent exit ...');
+    // console.log('sent exit ...');
   }
 };
 

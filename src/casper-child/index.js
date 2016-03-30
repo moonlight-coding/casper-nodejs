@@ -1,4 +1,4 @@
-console.log("I am the casperjs program, you  spawned me :)");
+//console.log("I am the casperjs program, you  spawned me :)");
 
 var casper = require('casper').create();
 var fs = require('fs');
@@ -70,14 +70,15 @@ try {
 
       casper.then(function() {
         // casper.echo("\033[31m[========] mlc.then execution in the context\033[0m");
-        //fn();
-        server._send(server._response, JSON.stringify(fn()), 200);
+        
+        // execute fn in 'this' context
+        server._send(server._response, JSON.stringify(fn.call(this)), 200);
         server._event_received = false;
 
         waitEventObj.wait(); //casper.waitFor();
       });
 
-      casper.echo('!!!! registered action !');
+      // casper.echo('!!!! registered action !');
     });
   });
 
@@ -88,7 +89,7 @@ try {
     // créer le lock pour dire à casper-nodejs qu'il peut envoyer des ordres
     try {
       var fs = require('fs');
-      console.log("WRITING : " + casper_lock);
+      // console.log("WRITING : " + casper_lock);
       fs.write(casper_lock, "1", 'w');
     }
     catch(e) {

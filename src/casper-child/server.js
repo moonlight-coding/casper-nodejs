@@ -16,10 +16,10 @@ var server = {
   },
 
   start: function(casper, port) {
-    casper.echo("attente d'une requete");
+    //casper.echo("attente d'une requete");
     server._server = webserver.create();
     server._server.listen(port, function(request, response) {
-      console.log('receiving request POST');      
+      // console.log('receiving request POST');      
 
       var method = request.method.toUpperCase();
 
@@ -73,7 +73,7 @@ var server = {
         return;
       }
       else if(req_content.action == 'exit') {
-        console.log('EXIT');
+        // console.log('EXIT');
         server._send(response, "OK\n");
         casper.exit();
         return;
