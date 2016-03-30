@@ -18,9 +18,14 @@ function create(url, params) {
   // - generate the lock filename
   lock = "/tmp/casper-nodejs-" + node_uuid.v4();
 
+  if(params == null)
+    params = {};
+  if(params.casper == null)
+    params.casper = {};
+
   var process = spawn('casperjs', [
     __dirname + '/../casper-child/index.js',
-    "--mlc-casper-options=" + JSON.stringify(params), 
+    "--mlc-casper-options=" + JSON.stringify(params.casper), 
     "--mlc-casper-url=" + JSON.stringify(url),
     "--mlc-casper-lock=" + JSON.stringify(lock)
   ]);

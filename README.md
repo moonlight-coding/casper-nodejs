@@ -68,9 +68,14 @@ In the nodejs context:
 - If the lock file hasn't been created, casper.run() call setTimeout in order to verify in an 
 async way, until the file is created.
 
-### Advantages
+## Advantages
 
-- you can call casper when you want
+- casperjs never exits until you specify it from the nodejs script
+- you can use 'then' whenever you want
+
+## Disavantages
+
+- [casperjs]: [info] [phantom] Step anonymous 5/5 http://www.google.fr/?gfe_rd=cr&ei=ky38VvejHfTt8wfViZxQ (HTTP 200)
 
 ## See Also
 

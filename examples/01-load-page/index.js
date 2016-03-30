@@ -23,7 +23,19 @@ var casper = casper_nodejs.create(url, {
 
 casper.then(function executed_in_this_context() {
   console.log("page loaded");
-}, null, null);
+});
+
+casper.then(function executed_in_this_context() {
+  console.log("and");
+});
+
+casper.then(function executed_in_this_context() {
+  console.log("a");
+});
+
+casper.then(function executed_in_this_context() {
+  console.log("test");
+});
 
 casper.then(function executed_in_casperjs_context() {
 

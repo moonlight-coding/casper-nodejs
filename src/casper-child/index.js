@@ -16,7 +16,7 @@ try {
   // console.log(casper_url);
   // console.log(casper_lock);
 
-  /*for(var i in casper_options) {
+  for(var i in casper_options) {
     var option = casper_options[i];
 
     if(!Array.isArray(option) && (typeof option === 'object') ) {
@@ -26,7 +26,7 @@ try {
     }
     else 
       casper.options[i] = option;
-  }*/
+  }
 
   // --
   var waitEventObj = {

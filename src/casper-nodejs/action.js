@@ -56,9 +56,16 @@ var Action = {
     }
 
     if(callback_casper == null) {
-      //console.log('callback casper NULL');
-      callback_current();
+      // console.log('callback casper NULL');
+      try {
+        callback_current();
+      } catch(e) {
+        console.error(e.track);
+      }
       Action._doing = false;
+
+      // appeler next si besoin
+      Action.next();
       return;
     } 
     else 
