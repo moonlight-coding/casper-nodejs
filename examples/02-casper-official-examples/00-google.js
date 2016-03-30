@@ -2,8 +2,8 @@ var casper_nodejs = require('../../index.js');
 
 var casper = casper_nodejs.create('http://google.fr/', {
   casper: {
-    'logLevel' : 'debug',
-    'verbose': true
+    /*'logLevel' : 'debug',
+    'verbose': true*/
   }
 });
 var links = [];
@@ -16,9 +16,8 @@ casper.then(function() {
    // search for 'casperjs' from google form
    this.fill('form[action="/search"]', { q: 'casperjs' }, true);
 
-   return 1;
 }, function(ret) {
-  console.log("premier fill de form: fait");
+  console.log('first form filled');
 });
 
 casper.then(function() {
@@ -37,7 +36,6 @@ casper.then(function() {
     return links;
 }, function(ret) {
   console.log("récupération des links");
-  //console.log(ret);
   links = ret;
 });
 

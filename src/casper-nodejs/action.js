@@ -93,8 +93,16 @@ var Action = {
       });
       response.on('end', function() {
         //console.log("réponse reçue: " + str);
-        callback_current(JSON.parse(str));
 
+        if(callback_current != null) {
+          try {
+            callback_current(JSON.parse(str));
+          }
+          catch(e) {
+            console.error(e.track);
+            //Action._execute_exit();
+          }
+        }
         // console.log("\033[33m--> Action Finished On CasperJS\033[0m");
 
         // libérer

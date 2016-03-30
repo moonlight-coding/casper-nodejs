@@ -71,11 +71,25 @@ try {
       casper.then(function() {
         // casper.echo("\033[31m[========] mlc.then execution in the context\033[0m");
         
-        // execute fn in 'this' context
-        server._send(server._response, JSON.stringify(fn.call(this)), 200);
-        server._event_received = false;
+        var __mlc_ret;
 
-        waitEventObj.wait(); //casper.waitFor();
+        try {
+          __mlc_ret = fn.call(this);
+
+          // no return in the callback
+          if(__mlc_ret === undefined)
+            __mlc_ret = null;
+
+          // execute fn in 'this' context
+          server._send(server._response, JSON.stringify(__mlc_ret), 200);
+          server._event_received = false;
+
+          waitEventObj.wait(); //casper.waitFor();
+        }
+        catch(e) {
+          console.error(e.track);
+          this.exit();
+        }
       });
 
       // casper.echo('!!!! registered action !');
