@@ -1,6 +1,7 @@
 console.log("I am the casperjs program, you  spawned me :)");
 
 var casper = require('casper').create();
+var fs = require('fs');
 var server;
 
 try {
@@ -8,10 +9,14 @@ try {
   //console.log(JSON.stringify(casper.cli.options, null, 2));
 
   // load the options from the command line
-  var casper_url = JSON.stringify(casper.cli.options['mlc-casper-url']);
-  var casper_options = JSON.stringify(casper.cli.options['mlc-casper-options']);
+  var casper_url = JSON.parse(casper.cli.options['mlc-casper-url']);
+  var casper_options = JSON.parse(casper.cli.options['mlc-casper-options']);
+  var casper_lock = JSON.parse(casper.cli.options['mlc-casper-lock']);
 
-  for(var i in casper_options) {
+  // console.log(casper_url);
+  // console.log(casper_lock);
+
+  /*for(var i in casper_options) {
     var option = casper_options[i];
 
     if(!Array.isArray(option) && (typeof option === 'object') ) {
@@ -21,7 +26,7 @@ try {
     }
     else 
       casper.options[i] = option;
-  }
+  }*/
 
   // --
   var waitEventObj = {
@@ -79,6 +84,17 @@ try {
   // 
   casper.start(casper_url, function() {
     // this.echo("casper.start executed");
+
+    // créer le lock pour dire à casper-nodejs qu'il peut envoyer des ordres
+    try {
+      var fs = require('fs');
+      console.log("WRITING : " + casper_lock);
+      fs.write(casper_lock, "1", 'w');
+    }
+    catch(e) {
+      console.log(e);
+      casper.exit(1);
+    }
   });
 
   casper.then(function() {

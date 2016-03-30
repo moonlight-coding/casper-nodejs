@@ -63,9 +63,9 @@ setTimeout(function() {
 }, 4000);
 */
 
-setTimeout(function() {
-  casper.run();
-}, 3000);
+//setTimeout(function() {
+casper.run();
+//}, 3000);
 
 setTimeout(function() {
   casper.exit();

@@ -15,18 +15,18 @@ var Action = {
       return;
 
     var n = Action._action_list.next();
-    console.log(' ===> ' + Action._action_list.actions.length);
+    // console.log(' ===> ' + Action._action_list.actions.length);
     if(n) {
-      console.log('==> launching action :) ');
+      // console.log('==> launching action :) ');
       
       Action._doing = true;
       Action.execute(n);
     }
-    else console.log('ACTION IS NULL WTF');
+    else;
   },
   execute: function(action) {
 
-    console.log("\033[35m-->Sending Action '" + action.type + "' To CasperJS\033[0m");
+    //console.log("\033[35m-->Sending Action '" + action.type + "' To CasperJS\033[0m");
 
     if(action.type == 'then') {
       Action._execute_then(action.callbacks);
