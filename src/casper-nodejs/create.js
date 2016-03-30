@@ -48,15 +48,14 @@ function create(url, params) {
 
 // casper.then variants:
 // ------------------------------------------------------------------------------------------
-// casper.then(fn_in_current_context, null, null)
-// casper.then(fn_in_casperjs_context, fn_in_current_context, null)
-// casper.then(fn_in_web_context, fn_in_casperjs_context, fn_in_current_context, null)
+// casper.then(fn_in_current_context, null)
+// casper.then(fn_in_casperjs_context, fn_in_current_context)
 // ------------------------------------------------------------------------------------------
 
-    then: function(callback1, callback2, callback3) {
+    then: function(callback1, callback2) {
     
       // console.log("\033[32m- 'then' action registered\033[0m");
-      service._actions.add('then', callback1, callback2, callback3);
+      service._actions.add('then', callback1, callback2);
 
       if(service._running) {
         service._action.next();

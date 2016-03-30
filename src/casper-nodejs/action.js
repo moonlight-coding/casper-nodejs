@@ -43,18 +43,11 @@ var Action = {
 
     var callback1 = action[0];
     var callback2 = action[1];
-    var callback3 = action[2];
 
     var callback_current = null;
     var callback_casper = null;
-    var callback_web = null;
 
-    if(callback3 != null) {
-      callback_web = callback1;
-      callback_casper = callback2;
-      callback_current = callback3;
-    }
-    else if(callback2 != null) {
+    if(callback2 != null) {
       callback_casper = callback1;
       callback_current = callback2;
     }
@@ -62,7 +55,15 @@ var Action = {
       callback_current = callback1;
     }
 
-    //console.log('TO IMPLEMENT: start ');
+    if(callback_casper == null) {
+      //console.log('callback casper NULL');
+      callback_current();
+      Action._doing = false;
+      return;
+    } 
+    else 
+      ; //console.log('callback casper NOT NULL');
+
     var body = JSON.stringify({
       'action': 'then',
       'callback': (callback_casper == null) ? null : callback_casper.toString()

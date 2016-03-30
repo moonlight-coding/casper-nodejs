@@ -6,15 +6,14 @@ var AL = {
   
   actions: [],
   
-  add: function(type, call_context_web, call_context_casperjs, call_context_nodejs) {
+  add: function(type, arg1, arg2) {
     
     var action = {type: type};
   
     if(action.type == 'then') {
-      action.callbacks = [
-        call_context_web, 
-        call_context_casperjs, 
-        call_context_nodejs
+      action.callbacks = [ 
+        arg1, 
+        arg2
       ];
     }
 

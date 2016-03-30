@@ -17,9 +17,8 @@ var casper = casper_nodejs.create(url, {
 
 // casper.then variants:
 // ------------------------------------------------------------------------------------------
-// casper.then(fn_in_current_context, null, null)
-// casper.then(fn_in_casperjs_context, fn_in_current_context, null)
-// casper.then(fn_in_phantomjs_context, fn_in_casperjs_context, fn_in_current_context, null)
+// casper.then(fn_in_current_context, null)
+// casper.then(fn_in_casperjs_context, fn_in_current_context)
 // ------------------------------------------------------------------------------------------
 
 casper.then(function executed_in_casperjs_context() {
