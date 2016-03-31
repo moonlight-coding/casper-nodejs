@@ -31,7 +31,7 @@ function create(url, params) {
     }
   }
 
-  console.log('port: ' + port);
+  // console.log('port: ' + port);
 
   var process = spawn('casperjs', [
     __dirname + '/../casper-child/index.js',

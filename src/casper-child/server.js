@@ -61,8 +61,9 @@ var server = {
         //var callback = evaluate(req.callback);
         //console.log('server._event_received set to true');
         server._response = response;
+        
         //casper.emit('mlc.then', null/*req.callback*/);
-        casper.emit('mlc.then', req_content.callback);
+        casper.emit('mlc.then', req_content.callback, req_content.parameters);
         //server._event_received = true;
 
         /*casper.then(function() {
@@ -79,7 +80,7 @@ var server = {
         return;
       }
 
-      console.log(method);
+      //console.log(method);
       server._send(response, "NOT OK: '" + req_content['action'] + "'\n");
     
     });

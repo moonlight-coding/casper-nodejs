@@ -41,7 +41,7 @@ var Action = {
   },
 
   _execute_then: function(action) {
-
+    
     var callback1 = action[0];
     var callback2 = action[1];
 
@@ -60,9 +60,11 @@ var Action = {
     if(callback_casper == null && callback2 == undefined) {
       // console.log('callback casper NULL');
       try {
-        callback_current();
+        callback_current[0].apply(this, callback_current[1]);
       } catch(e) {
         console.error(e.track);
+        Action._execute_exit();
+        return;
       }
       Action._doing = false;
 
@@ -72,10 +74,11 @@ var Action = {
     } 
     else 
       ; //console.log('callback casper NOT NULL');
-
+    
     var body = JSON.stringify({
       'action': 'then',
-      'callback': (callback_casper == null) ? null : callback_casper.toString()
+      'callback': (callback_casper == null) ? null : callback_casper[0].toString(),
+      'parameters': (callback_casper == null) ? null : callback_casper[1]
     });
     var req = http.request({
       host: '127.0.0.1',
@@ -98,11 +101,13 @@ var Action = {
 
         if(callback_current != null) {
           try {
-            callback_current(JSON.parse(str));
+            callback_current[0].apply(this, [JSON.parse(str)].concat(callback_current[1])); // 1st param: ret, 2nd and > params: your params
+            // callback_current(JSON.parse(str));
           }
           catch(e) {
             console.error(e.track);
-            //Action._execute_exit();
+            Action._execute_exit();
+            return;
           }
         }
         else console.log('callback_current null');

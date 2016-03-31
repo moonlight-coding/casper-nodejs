@@ -7,7 +7,15 @@ var AL = {
   actions: [],
   
   _uniformize_arg: function(arg) {
-    
+    if(arg == null)
+      return arg; // null or undefined
+
+    if(typeof arg == "function") {
+      return [arg, []];
+    }
+    else { // array
+      return arg;
+    }
   },
 
   add: function(type, arg1, arg2) {
@@ -16,8 +24,8 @@ var AL = {
   
     if(action.type == 'then') {
       action.callbacks = [ 
-        arg1, 
-        arg2
+        AL._uniformize_arg(arg1), 
+        AL._uniformize_arg(arg2)
       ];
     }
 

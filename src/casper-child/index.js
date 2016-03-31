@@ -57,8 +57,8 @@ try {
   var context = {};
 
   // initialize the events
-  casper.on('mlc.then', function(callback) {
-
+  casper.on('mlc.then', function(callback, parameters) {
+    //casper.echo(parameters);
     //casper.echo('!!!! received mlc.action !');
     server._event_received = true;
 
@@ -79,7 +79,7 @@ try {
         var __mlc_ret;
 
         try {
-          __mlc_ret = fn.call(this);
+          __mlc_ret = fn.apply(this, parameters);
 
           // no return in the callback
           if(__mlc_ret === undefined)
