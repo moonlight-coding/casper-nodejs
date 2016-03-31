@@ -49,7 +49,7 @@ var Action = {
     var callback_casper = null;
 
     // if null : it means the user asks for 2 callbacks
-    if(callback2 != undefined) {
+    if(callback2 !== undefined) { // 'undefined', not 'null'
       callback_casper = callback1;
       callback_current = callback2;
     }
@@ -57,7 +57,7 @@ var Action = {
       callback_current = callback1;
     }
 
-    if(callback_casper == null && callback2 == undefined) {
+    if(callback_casper == null && callback2 == undefined) { // only if callback2 is undefined, and not null
       // console.log('callback casper NULL');
       try {
         callback_current[0].apply(this, callback_current[1]);
@@ -110,7 +110,7 @@ var Action = {
             return;
           }
         }
-        else console.log('callback_current null');
+        else; // console.log('callback_current null');
         // console.log("\033[33m--> Action Finished On CasperJS\033[0m");
 
         // libérer
