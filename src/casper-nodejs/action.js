@@ -49,7 +49,7 @@ var Action = {
     var callback_casper = null;
 
     // if null : it means the user asks for 2 callbacks
-    if(callback2 !== -1) {
+    if(callback2 != undefined) {
       callback_casper = callback1;
       callback_current = callback2;
     }
@@ -57,7 +57,7 @@ var Action = {
       callback_current = callback1;
     }
 
-    if(callback_casper == null && callback2 == -1) {
+    if(callback_casper == null && callback2 == undefined) {
       // console.log('callback casper NULL');
       try {
         callback_current();

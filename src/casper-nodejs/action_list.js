@@ -6,6 +6,10 @@ var AL = {
   
   actions: [],
   
+  _uniformize_arg: function(arg) {
+    
+  },
+
   add: function(type, arg1, arg2) {
     
     var action = {type: type};
@@ -13,7 +17,7 @@ var AL = {
     if(action.type == 'then') {
       action.callbacks = [ 
         arg1, 
-        (arg2 === undefined) ? -1 : arg2
+        arg2
       ];
     }
 
