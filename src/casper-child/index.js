@@ -12,6 +12,7 @@ try {
   var casper_url = JSON.parse(casper.cli.options['mlc-casper-url']);
   var casper_options = JSON.parse(casper.cli.options['mlc-casper-options']);
   var casper_lock = JSON.parse(casper.cli.options['mlc-casper-lock']);
+  var port = JSON.parse(casper.cli.options['mlc-casper-port']);
 
   // console.log(casper_url);
   // console.log(casper_lock);
@@ -50,6 +51,10 @@ try {
       casper.waitFor(waitEventObj.check, waitEventObj.then, waitEventObj.onTimeout, waitEventObj.timeout);
     }
   };
+
+  // -------- to isolate
+
+  var context = {};
 
   // initialize the events
   casper.on('mlc.then', function(callback) {
@@ -96,6 +101,8 @@ try {
     });
   });
 
+  // ---------
+
   // 
   casper.start(casper_url, function() {
     // this.echo("casper.start executed");
@@ -127,7 +134,7 @@ try {
   // listen to requests from nodejs
   server = require('./server.js');
 
-  server.start(casper, 8085);
+  server.start(casper, port);
 
 }
 catch(err) {

@@ -13,7 +13,7 @@ var AL = {
     if(action.type == 'then') {
       action.callbacks = [ 
         arg1, 
-        arg2
+        (arg2 === undefined) ? -1 : arg2
       ];
     }
 

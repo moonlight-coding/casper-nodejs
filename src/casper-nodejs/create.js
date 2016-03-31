@@ -23,11 +23,22 @@ function create(url, params) {
   if(params.casper == null)
     params.casper = {};
 
+  var port = 8085;
+
+  if(params.config != null) {
+    if(params.config.port != null) {
+      port = params.config.port;
+    }
+  }
+
+  console.log('port: ' + port);
+
   var process = spawn('casperjs', [
     __dirname + '/../casper-child/index.js',
     "--mlc-casper-options=" + JSON.stringify(params.casper), 
     "--mlc-casper-url=" + JSON.stringify(url),
-    "--mlc-casper-lock=" + JSON.stringify(lock)
+    "--mlc-casper-lock=" + JSON.stringify(lock),
+    "--mlc-casper-port=" + JSON.stringify(port)
   ]);
 
   process.stdout.on('data', (data) => {
@@ -45,10 +56,14 @@ function create(url, params) {
       console.log(`casper-child exited with code ${code}`);
   });
 
+  var action_service = require(__dirname + '/action.js');
+  action_service._port = port;
+
   var service = {
+    _port: port,
     _process: process,
     _running: false,
-    _action: require(__dirname + '/action.js'),
+    _action: action_service,
     _actions: require(__dirname + '/action_list.js'),
 
 // casper.then variants:

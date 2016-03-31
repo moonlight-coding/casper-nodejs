@@ -3,6 +3,7 @@ var http = require('http');
 var Action = {
   _action_list: null,
   _doing: false,
+  _port: null,
 
   start: function(action_list) {
     Action._action_list = action_list;
@@ -47,7 +48,8 @@ var Action = {
     var callback_current = null;
     var callback_casper = null;
 
-    if(callback2 != null) {
+    // if null : it means the user asks for 2 callbacks
+    if(callback2 !== -1) {
       callback_casper = callback1;
       callback_current = callback2;
     }
@@ -55,7 +57,7 @@ var Action = {
       callback_current = callback1;
     }
 
-    if(callback_casper == null) {
+    if(callback_casper == null && callback2 == -1) {
       // console.log('callback casper NULL');
       try {
         callback_current();
@@ -77,7 +79,7 @@ var Action = {
     });
     var req = http.request({
       host: '127.0.0.1',
-      port: 8085,
+      port: Action._port,
       path: '/',
       method: 'POST',
       headers : {
@@ -103,6 +105,7 @@ var Action = {
             //Action._execute_exit();
           }
         }
+        else console.log('callback_current null');
         // console.log("\033[33m--> Action Finished On CasperJS\033[0m");
 
         // libérer
@@ -127,7 +130,7 @@ var Action = {
     });
     var req = http.request({
       host: '127.0.0.1',
-      port: 8085,
+      port: Action._port,
       path: '/',
       method: 'POST',
       headers : {
