@@ -15,9 +15,9 @@ casper.then(function executed_in_this_context() {
 });
 
 casper.then([function executed_in_casperjs_context() {
-  return server._event_received; //Object.keys(this);
+  return Object.keys(this);
 }], function executed_after_in_this_context(ret) {
-  console.log(ret );
+  console.log(ret);
   casper.exit();
 });
 

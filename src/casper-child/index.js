@@ -2,7 +2,7 @@
 
 var casper = require('casper').create();
 var fs = require('fs');
-var server;
+var __mlc_server;
 
 try {
 
@@ -33,9 +33,9 @@ try {
   var waitEventObj = {
     check: function() {
       //return false;
-      if(server._event_received == true)
+      if(__mlc_server._event_received == true)
         ; //console.log("TRUE :)");
-      return server._event_received;
+      return __mlc_server._event_received;
     },
     then: function () {
       //this.echo('end of wait IDIOOOOOOOOOOOOOOOOOOOOOOOOOT');
@@ -57,21 +57,14 @@ try {
   var context = {};
 
   // initialize the events
-  casper.on('mlc.then', function(callback, parameters) {
-    //casper.echo(parameters);
-    //casper.echo('!!!! received mlc.action !');
-    server._event_received = true;
+  casper.on('mlc.then', function(__mlc_callback, __mlc_parameters) {
+    // lock the __mlc_server
+    __mlc_server._event_received = true;
 
     casper.then(function() {
-      
-  //    casper.echo(typeof callback);  
-      /*casper.echo("--------");
-      casper.echo(callback);
-      casper.echo("--------");*/
 
-      //casper.echo("before");
-      var fn = eval('(' + callback + ')');
-      //casper.echo("after");
+      // convert the callback from string to function
+      var __mlc_callback_fn = eval('(' + __mlc_callback + ')');
 
       casper.then(function() {
         // casper.echo("\033[31m[========] mlc.then execution in the context\033[0m");
@@ -79,15 +72,15 @@ try {
         var __mlc_ret;
 
         try {
-          __mlc_ret = fn.apply(this, parameters);
+          __mlc_ret = __mlc_callback_fn.apply(this, __mlc_parameters);
 
           // no return in the callback
           if(__mlc_ret === undefined)
             __mlc_ret = null;
 
           // execute fn in 'this' context
-          server._send(server._response, JSON.stringify(__mlc_ret), 200);
-          server._event_received = false;
+          __mlc_server._send(__mlc_server._response, JSON.stringify(__mlc_ret), 200);
+          __mlc_server._event_received = false;
 
           waitEventObj.wait(); //casper.waitFor();
         }
@@ -132,9 +125,9 @@ try {
   });
 
   // listen to requests from nodejs
-  server = require('./server.js');
+  __mlc_server = require('./server.js');
 
-  server.start(casper, port);
+  __mlc_server.start(casper, port);
 
 }
 catch(err) {

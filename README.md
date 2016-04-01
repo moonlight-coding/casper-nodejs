@@ -81,3 +81,7 @@ async way, until the file is created.
 
 - SpookyJs : the current main nodejs library allowing to use CasperJS. Unmaintained.
 
+## License
+
+Project under MIT License (see the file LICENSE).
+
