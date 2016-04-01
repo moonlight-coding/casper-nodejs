@@ -4,21 +4,26 @@ var Action = {
   _action_list: null,
   _doing: false,
   _port: null,
-
+  
+  // start to execute actions
   start: function(action_list) {
     Action._action_list = action_list;
-    // console.log('starting to execute actions');
+
     Action.next();
   },
+
+  // execute the next action
   next: function() {
-    //console.log('==> ACTION.NEXT');
+
+    // if an action is already running: we wait its end
     if(Action._doing == true)
       return;
 
+    // get the action to launch
     var n = Action._action_list.next();
-    // console.log(' ===> ' + Action._action_list.actions.length);
+
     if(n) {
-      // console.log('==> launching action :) ');
+      // launching the action
       
       Action._doing = true;
       Action.execute(n);
@@ -151,8 +156,7 @@ var Action = {
         // libérer
         Action._doing = false;
 
-        // appeler next si besoin
-        // Action.next();
+        // we don't call Action.next() because it is the end
       });
     });
 

@@ -1,11 +1,19 @@
 /*
-  List of the actions to execute
-*/
+ * List of the actions to execute
+ * Main goal: check and uniformize the input
+ */
 
 var AL = {
-  
+
+  // the list of actions  
   actions: [],
   
+  // uniformize a callback arg:
+  // can be:
+  // - undefined : arg not set
+  // - null: arg set at null explicitly
+  // - function : the callback to execute
+  // - [function, array]: the callback to execute and the parameters to give it
   _uniformize_arg: function(arg) {
     if(arg == null)
       return arg; // null or undefined
@@ -14,10 +22,15 @@ var AL = {
       return [arg, []];
     }
     else { // array
-      return arg;
+      if(arg.length == 1) {
+        return [arg[0], []];
+      }
+      else 
+        return arg;
     }
   },
 
+  // add an action in the list (added at the end, it's a FIFO)
   add: function(type, arg1, arg2) {
     
     var action = {type: type};
@@ -30,8 +43,6 @@ var AL = {
     }
 
     AL.actions.push(action);
-
-    // console.log(AL.actions.length + ' actions enregistrées');
 
     return AL;
   },
