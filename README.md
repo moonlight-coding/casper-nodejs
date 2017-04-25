@@ -21,6 +21,13 @@ Install the dependencies:
 - `sudo npm install -g phantomjs casperjs`
 - `npm install`
 
+### Api
+
+```
+casper.then(fn_in_current_context, null);
+casper.then(fn_in_casperjs_context, fn_in_current_context);
+```
+
 ### Usage
 
 Create a nodejs script. 
